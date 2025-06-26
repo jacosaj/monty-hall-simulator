@@ -9,13 +9,22 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
-    minify: 'terser',
+    minify: 'esbuild', // Use esbuild instead of terser (faster, built-in)
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          three: ['three'],
-          charts: ['recharts']
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor';
+            }
+            if (id.includes('three')) {
+              return 'three';
+            }
+            if (id.includes('recharts')) {
+              return 'charts';
+            }
+            return 'vendor';
+          }
         }
       }
     }
