@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/monty-hall-simulator/' : '/',
+  base: '/', // Dla custom domain ZAWSZE '/'
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -27,8 +27,11 @@ export default defineConfig({
           }
         }
       }
-    }
+    },
+    // Kopiuj CNAME dla GitHub Pages custom domain
+    copyPublicDir: true
   },
+  publicDir: 'public',
   server: {
     port: 5173,
     host: true,
